@@ -7,7 +7,7 @@ plugins {
 }
 
 application {
-    mainClass.set("org.example.hexlet.HelloWorld")
+    mainClass.set("org.example.hexlet.App")
 }
 
 group = "org.example"
@@ -25,6 +25,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("org.projectlombok:lombok:1.18.20")
     implementation("gg.jte:jte:3.1.9")
+    implementation("net.datafaker:datafaker:2.0.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
 }
 
 
