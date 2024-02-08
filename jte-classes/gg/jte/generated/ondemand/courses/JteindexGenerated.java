@@ -1,35 +1,35 @@
-package gg.jte.generated.ondemand.users;
-import org.example.hexlet.dto.users.UsersPage;
+package gg.jte.generated.ondemand.courses;
+import org.example.hexlet.dto.courses.CoursesPage;
 public final class JteindexGenerated {
-	public static final String JTE_NAME = "users/index.jte";
-	public static final int[] JTE_LINE_INFO = {0,0,1,1,1,3,3,5,5,7,7,10,10,28,28,30,30,30,30,30,30,30,31,31,31,32,32,32,33,33,33,35,35,39,39,41,41,42,42,43,43,44,44,44,44,44,44,44,44,45,45,46,46,46,46,46,46,46,46,48,48,49,49,49,49,49,49,49,49,50,50,51,51,54,54,56,56,56,57,57,57,1,1,1,1};
-	public static void render(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, UsersPage page) {
+	public static final String JTE_NAME = "courses/index.jte";
+	public static final int[] JTE_LINE_INFO = {0,0,1,1,1,3,3,5,5,7,7,10,10,28,28,30,30,30,30,30,30,30,31,31,31,32,32,32,33,33,33,36,36,40,40,42,42,43,43,44,44,45,45,45,45,45,45,45,45,46,46,47,47,47,47,47,47,47,47,49,49,50,50,50,50,50,50,50,50,51,51,52,52,55,55,57,57,57,57,57,1,1,1,1};
+	public static void render(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, CoursesPage page) {
 		jteOutput.writeContent("\n");
 		gg.jte.generated.ondemand.layout.JtepageGenerated.render(jteOutput, jteHtmlInterceptor, new gg.jte.html.HtmlContent() {
 			public void writeTo(gg.jte.html.HtmlTemplateOutput jteOutput) {
 				jteOutput.writeContent("\n    <div class=\"container\">\n        ");
-				if (page.getUsers().isEmpty()) {
-					jteOutput.writeContent("\n            <p>Not found any users</p>\n            <a href=\"/users\">Back</a>\n        ");
+				if (page.getCourses().isEmpty()) {
+					jteOutput.writeContent("\n            <p>Not found any courses</p>\n            <a href=\"/courses\">Back</a>\n        ");
 				} else {
-					jteOutput.writeContent("\n            <h2>Users list</h2>\n            <form class=\"nav active\" action=\"/users\" method=\"get\">\n                <label>\n                    <input type=\"search\" required name=\"term\">\n                </label>\n                <input class=\"nav-link\" type=\"submit\" value=\"Искать\">\n            </form>\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>ID</th>\n                    <th>Email</th>\n                    <th>FirstName</th>\n                    <th>LastName</th>\n                </tr>\n                </thead>\n                <tbody>\n                ");
-					for (var user : page.getUsers()) {
-						jteOutput.writeContent("\n                    <tr>\n                        <td><a href=\"/users/");
+					jteOutput.writeContent("\n            <h2>Courses list</h2>\n            <form class=\"nav active\" action=\"/courses\" method=\"get\">\n                <label>\n                    <input type=\"search\" required name=\"term\">\n                </label>\n                <input class=\"nav-link\" type=\"submit\" value=\"Искать\">\n            </form>\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>ID</th>\n                    <th>Name</th>\n                    <th>Description</th>\n                    <th>Full name of the course</th>\n                </tr>\n                </thead>\n                <tbody>\n                ");
+					for (var course : page.getCourses()) {
+						jteOutput.writeContent("\n                    <tr>\n                        <td><a href=\"/courses/");
 						jteOutput.setContext("a", "href");
-						jteOutput.writeUserContent(user.getId());
+						jteOutput.writeUserContent(course.getId());
 						jteOutput.setContext("a", null);
 						jteOutput.writeContent("\">");
 						jteOutput.setContext("a", null);
-						jteOutput.writeUserContent(user.getId());
+						jteOutput.writeUserContent(course.getId());
 						jteOutput.writeContent("</a></td>\n                        <td>");
 						jteOutput.setContext("td", null);
-						jteOutput.writeUserContent(user.getEmail());
+						jteOutput.writeUserContent(course.getName());
 						jteOutput.writeContent("</td>\n                        <td>");
 						jteOutput.setContext("td", null);
-						jteOutput.writeUserContent(user.getFirstName());
+						jteOutput.writeUserContent(course.getDescription());
 						jteOutput.writeContent("</td>\n                        <td>");
 						jteOutput.setContext("td", null);
-						jteOutput.writeUserContent(user.getLastName());
-						jteOutput.writeContent("</td>\n                    </tr>\n                ");
+						jteOutput.writeUserContent(course.toString());
+						jteOutput.writeContent("</td>\n                    </tr>\n\n                ");
 					}
 					jteOutput.writeContent("\n                </tbody>\n                <tr>\n                    <td colspan=\"4\">\n                        ");
 					if (page.getTerm() != null) {
@@ -76,10 +76,9 @@ public final class JteindexGenerated {
 				jteOutput.writeContent("\n    </div>\n");
 			}
 		}, null);
-		jteOutput.writeContent("\n");
 	}
 	public static void renderMap(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, java.util.Map<String, Object> params) {
-		UsersPage page = (UsersPage)params.get("page");
+		CoursesPage page = (CoursesPage)params.get("page");
 		render(jteOutput, jteHtmlInterceptor, page);
 	}
 }

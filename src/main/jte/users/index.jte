@@ -5,9 +5,16 @@
 content = @`
     <div class="container">
         @if(page.getUsers().isEmpty())
-            <p>Users not added in the list</p>
+            <p>Not found any users</p>
+            <a href="/users">Back</a>
         @else
             <h2>Users list</h2>
+            <form class="nav active" action="/users" method="get">
+                <label>
+                    <input type="search" required name="term">
+                </label>
+                <input class="nav-link" type="submit" value="Искать">
+            </form>
             <table class="table">
                 <thead>
                 <tr>
@@ -29,14 +36,18 @@ content = @`
                 </tbody>
                 <tr>
                     <td colspan="4">
+                        @if (page.getTerm() != null)
+                            <a href="/courses">Back</a>
+                        @else
                         @if (page.getCurrentPage() < page.getTotalPages())
                         @if (page.getCurrentPage() > 1)
-                            <a href="/users?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
+                            <a href="/courses?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
                         @endif
-                        <a href="/users?page=${page.getCurrentPage()+1}&per=${page.getPerParam()}">Next</a>
+                        <a href="/courses?page=${page.getCurrentPage()+1}&per=${page.getPerParam()}">Next</a>
                     </td>
                     @else
-                        <a href="/users?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
+                        <a href="/courses?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
+                    @endif
                     @endif
                 </tr>
             </table>

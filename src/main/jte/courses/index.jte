@@ -5,9 +5,16 @@
 content = @`
     <div class="container">
         @if(page.getCourses().isEmpty())
-            <p>Still not added new courses</p>
+            <p>Not found any courses</p>
+            <a href="/courses">Back</a>
         @else
             <h2>Courses list</h2>
+            <form class="nav active" action="/courses" method="get">
+                <label>
+                    <input type="search" required name="term">
+                </label>
+                <input class="nav-link" type="submit" value="Искать">
+            </form>
             <table class="table">
                 <thead>
                 <tr>
@@ -30,6 +37,9 @@ content = @`
                 </tbody>
                 <tr>
                     <td colspan="4">
+                        @if (page.getTerm() != null)
+                            <a href="/courses">Back</a>
+                        @else
                         @if (page.getCurrentPage() < page.getTotalPages())
                         @if (page.getCurrentPage() > 1)
                             <a href="/courses?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
@@ -38,6 +48,7 @@ content = @`
                     </td>
                     @else
                         <a href="/courses?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
+                    @endif
                     @endif
                 </tr>
             </table>

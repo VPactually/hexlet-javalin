@@ -3,7 +3,7 @@
 
 @template.layout.page(
 content = @`
-    <h2>Welcome!!!</h2>
+    <h2>Welcome !!!</h2>
     <p>This site created by ${page.getName()}</p>
 
 `,

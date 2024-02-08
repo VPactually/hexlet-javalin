@@ -1,5 +1,6 @@
 package org.example.hexlet;
 
+import gg.jte.html.HtmlPolicyException;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import org.example.hexlet.dto.courses.CoursesPage;
 import org.example.hexlet.dto.users.UserPage;
 import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.*;
-
+import org.apache.commons.text.StringEscapeUtils;
 import java.util.*;
 
 public class App {
@@ -34,7 +35,7 @@ public class App {
             ctx.result(String.format("Hello, %s!", name));
         });
         app.get("/users", ctx -> {
-            ctx.render("users/index.jte", Collections.singletonMap("page", Pages.createPage(ctx, USERS)));
+            ctx.render("users/index.jte", Collections.singletonMap("page", Pages.createPage(ctx, USERS, new UsersPage())));
         });
         app.get("/users/{id}", ctx -> {
             var id = Integer.parseInt(ctx.pathParam("id")) - 1;
@@ -48,7 +49,8 @@ public class App {
             }
         });
         app.get("/courses", ctx -> {
-            ctx.render("courses/index.jte", Collections.singletonMap("page", Pages.createPage(ctx, COURSES)));
+
+            ctx.render("courses/index.jte", Collections.singletonMap("page", Pages.createPage(ctx, COURSES, new CoursesPage())));
         });
         app.get("/courses/{id}", ctx -> {
             var id = Integer.parseInt(ctx.pathParam("id")) - 1;

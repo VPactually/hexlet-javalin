@@ -7,7 +7,7 @@ public final class JtewelcomePageGenerated {
 		jteOutput.writeContent("\n");
 		gg.jte.generated.ondemand.layout.JtepageGenerated.render(jteOutput, jteHtmlInterceptor, new gg.jte.html.HtmlContent() {
 			public void writeTo(gg.jte.html.HtmlTemplateOutput jteOutput) {
-				jteOutput.writeContent("\n    <h2>Welcome!!!</h2>\n    <p>This site created by ");
+				jteOutput.writeContent("\n    <h2>Welcome !!!</h2>\n    <p>This site created by ");
 				jteOutput.setContext("p", null);
 				jteOutput.writeUserContent(page.getName());
 				jteOutput.writeContent("</p>\n\n");

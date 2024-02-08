@@ -27,6 +27,7 @@ dependencies {
     implementation("gg.jte:jte:3.1.9")
     implementation("net.datafaker:datafaker:2.0.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
+    implementation("org.apache.commons:commons-text:1.10.0")
 }
 
 
