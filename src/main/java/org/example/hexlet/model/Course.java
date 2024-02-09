@@ -1,7 +1,14 @@
 package org.example.hexlet.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public final class Course {
-    private Long id;
+    private long id;
     private String name;
     private String description;
 
@@ -11,24 +18,4 @@ public final class Course {
         this.id = id;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

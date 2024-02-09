@@ -1,45 +1,28 @@
 package org.example.hexlet.model;
 
 
-public final class User {
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
+public final class User {
     private long id;
     private String firstName;
-
-    private String lastName;
-
     private String email;
+    private String password;
 
-    public User(long id, String firstName, String lastName, String email) {
+    public User(long id, String firstName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
-        this.lastName = lastName;
         this.email = email;
+        this.password = password;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getFirstName() {
+    public String getName() {
         return firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }

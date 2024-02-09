@@ -1,8 +1,10 @@
-package org.example.hexlet.model;
+package org.example.hexlet.model.pages;
 
 import io.javalin.http.Context;
 import org.example.hexlet.dto.courses.CoursesPage;
 import org.example.hexlet.dto.users.UsersPage;
+import org.example.hexlet.model.Course;
+import org.example.hexlet.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +12,11 @@ import java.util.stream.Collectors;
 
 public class Pages {
 
-    public static<T> Page createPage(Context ctx, List<T> list, Page page){
+    public static<T> LongPages createPage(Context ctx, List<T> list, LongPages page){
         var pg = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
         var per = ctx.queryParamAsClass("per", Integer.class).getOrDefault(10);
-
         var term = ctx.queryParamAsClass("term", String.class).getOrDefault(null);
+
         if (term != null) {
             term = term.toLowerCase();
             String finalTerm = term;

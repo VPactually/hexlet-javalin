@@ -1,8 +1,9 @@
 package org.example.hexlet.dto.courses;
 
 import org.example.hexlet.model.Course;
+import org.example.hexlet.model.pages.Page;
 
-public final class CoursePage {
+public final class CoursePage implements Page {
     private Course course;
 
     public CoursePage(Course course) {
@@ -12,4 +13,5 @@ public final class CoursePage {
     public Course getCourse() {
         return course;
     }
+
 }

@@ -1,13 +1,13 @@
 package org.example.hexlet.dto.courses;
 
 import org.example.hexlet.model.Course;
-import org.example.hexlet.model.Page;
+import org.example.hexlet.model.pages.LongPages;
+import org.example.hexlet.model.pages.Page;
+import org.example.hexlet.repository.CourseRepository;
 
 import java.util.List;
 
-import static org.example.hexlet.App.COURSES;
-
-public class CoursesPage implements Page {
+public class CoursesPage implements LongPages, Page {
     private List<Course> courses;
     private String header;
     private int totalPages;
@@ -47,7 +47,7 @@ public class CoursesPage implements Page {
     }
 
     public int getPerParam() {
-        return COURSES.size() / totalPages;
+        return CourseRepository.size() / totalPages;
     }
 
 }

@@ -2,7 +2,11 @@
 @param CoursesPage page
 
 @template.layout.page(
+page = page,
 content = @`
+    <div class="container" align="right">
+        <a href="/courses/build">Create course</a>
+    </div>
     <div class="container">
         @if(page.getCourses().isEmpty())
             <p>Not found any courses</p>

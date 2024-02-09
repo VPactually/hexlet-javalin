@@ -31,9 +31,9 @@ public class Data {
         for (int i = 0; i < ITEMS_COUNT; i++) {
             var id = ids.get(i);
             var firstName = faker.name().firstName();
-            var lastName = faker.name().lastName();
             var email = faker.internet().emailAddress();
-            User user = new User(id, firstName, lastName, email);
+            var password = faker.internet().password();
+            User user = new User(id, firstName, email, password);
             users.add(user);
         }
 

@@ -1,10 +1,10 @@
 package org.example.hexlet.dto.users;
 
-import lombok.Getter;
 import org.example.hexlet.model.User;
+import org.example.hexlet.model.pages.Page;
 
 // BEGIN
-public class UserPage {
+public class UserPage implements Page {
     private User user;
 
     public UserPage(User user) {
@@ -14,5 +14,6 @@ public class UserPage {
     public User getUser() {
         return user;
     }
+
 }
 // END

@@ -1,15 +1,11 @@
-package org.example.hexlet.model;
+package org.example.hexlet.model.pages;
 
-
-public interface Page {
-
+public interface LongPages {
     int getCurrentPage();
 
     int getTotalPages();
 
     int getPerParam();
-
-    String getHeader();
 
     String getTerm();
 }
