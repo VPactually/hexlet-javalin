@@ -1,26 +1,27 @@
 @import org.example.hexlet.dto.users.UsersPage
+@import org.example.hexlet.NamedRoutes
 @param UsersPage page
 
 @template.layout.page(
 page = page,
 content = @`
     <div class="container" align="right">
-        <a href="/users/build">Create user</a>
+        <a href="${NamedRoutes.buildUserPath()}">Create user</a>
     </div>
     <div class="container">
         @if(page.getUsers().isEmpty())
             <p>Not found any users</p>
-            <a href="/users">Back</a>
+            <a href="${NamedRoutes.usersPath()}">Back</a>
         @else
             <h2>Users list</h2>
-            <form class="nav active" action="/users" method="get">
+            <form class="nav active" action="${NamedRoutes.usersPath()}" method="get">
                 <label>
                     <input type="search" required name="term">
                 </label>
                 <input class="nav-link" type="submit" value="Search">
             </form>
             <div align="right">
-                <form action="/users" method="get">
+                <form action="${NamedRoutes.usersPath()}" method="get">
                     <input type="hidden" name="page" value="1">
                     <label>
                         <select name="per">
@@ -43,7 +44,7 @@ content = @`
                 <tbody>
                 @for(var user : page.getUsers())
                     <tr>
-                        <td><a href="/users/${user.getId()}">${user.getId()}</a></td>
+                        <td><a href="${NamedRoutes.userPath(user.getId())}">${user.getId()}</a></td>
                         <td>${user.getEmail()}</td>
                         <td>${user.getFirstName()}</td>
                     </tr>
@@ -52,16 +53,16 @@ content = @`
             </table>
             <div class="container" align="right">
                 @if (page.getTerm() != null)
-                    <a href="/users">Back</a>
+                    <a href="${NamedRoutes.usersPath()}">Back</a>
                 @else
                     @if (page.hasNextPage())
                         @if (page.hasPreviousPage())
-                            <a href="/users?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
+                            <a href="${NamedRoutes.usersPath()}?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
                         @endif
-                        <a href="/users?page=${page.getCurrentPage()+1}&per=${page.getPerParam()}">Next</a>
+                        <a href="${NamedRoutes.usersPath()}?page=${page.getCurrentPage()+1}&per=${page.getPerParam()}">Next</a>
                     @else
                         @if (page.hasPreviousPage())
-                            <a href="/users?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
+                            <a href="${NamedRoutes.usersPath()}?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
                         @endif
                     @endif
                 @endif

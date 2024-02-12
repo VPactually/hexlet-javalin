@@ -29,21 +29,17 @@ public class App {
                     "layout/welcomePage.jte",
                     Collections.singletonMap("page", new WelcomePage("Vladislav Pomozov")));
         });
-        app.get("/hello", ctx -> {
-            var name = ctx.queryParamAsClass("name", String.class).getOrDefault("World");
-            ctx.result(String.format("Hello, %s!", name));
-        });
-        app.get("/users", ctx -> {
+        app.get(NamedRoutes.usersPath(), ctx -> {
             var users = UserRepository.getEntities();
             users.sort(Comparator.comparing(User::getId));
             var map = Collections.singletonMap("page", Pages.createPage(ctx, users, new UsersPage()));
             ctx.render("users/index.jte", map);
         });
-        app.get("/users/build", ctx -> {
+        app.get(NamedRoutes.buildUserPath(), ctx -> {
             var page = new BuildUserPage();
             ctx.render("users/build.jte", Collections.singletonMap("page", page));
         });
-        app.post("/users", ctx -> {
+        app.post(NamedRoutes.usersPath(), ctx -> {
             var name = Objects.requireNonNull(ctx.formParam("name")).trim();
             var email = Objects.requireNonNull(ctx.formParam("email")).trim().toLowerCase(Locale.ROOT);
 
@@ -63,7 +59,7 @@ public class App {
 
 
         });
-        app.get("/users/{id}", ctx -> {
+        app.get(NamedRoutes.userPath("{id}"), ctx -> {
             var id = Integer.parseInt(ctx.pathParam("id"));
             if (id > Data.getUsers().size() || id < 0) {
                 ctx.status(404);
@@ -74,17 +70,17 @@ public class App {
                 ctx.render("users/show.jte", Collections.singletonMap("page", page));
             }
         });
-        app.get("/courses", ctx -> {
+        app.get(NamedRoutes.coursesPath(), ctx -> {
             var courses = CourseRepository.getEntities();
             courses.sort(Comparator.comparing(Course::getId));
             var map = Collections.singletonMap("page", Pages.createPage(ctx, courses, new CoursesPage()));
             ctx.render("courses/index.jte", map);
         });
-        app.get("/courses/build", ctx -> {
+        app.get(NamedRoutes.buildCoursePath(), ctx -> {
             var page = new BuildCoursePage();
             ctx.render("courses/build.jte", Collections.singletonMap("page", page));
         });
-        app.post("/courses", ctx -> {
+        app.post(NamedRoutes.coursesPath(), ctx -> {
             try {
                 var name = ctx.formParamAsClass("name", String.class)
                         .check(value -> value.length() > 2, "Short name")
@@ -101,7 +97,7 @@ public class App {
                 ctx.render("courses/build.jte", Collections.singletonMap("page", page));
             }
         });
-        app.get("/courses/{id}", ctx -> {
+        app.get(NamedRoutes.coursePath("{id}"), ctx -> {
             var id = Integer.parseInt(ctx.pathParam("id")) - 1;
             if (id > CourseRepository.getEntities().size() || id < 0) {
                 ctx.status(404);
