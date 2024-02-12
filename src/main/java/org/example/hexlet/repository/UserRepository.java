@@ -32,8 +32,14 @@ public class UserRepository {
         return maybeUser;
     }
 
+    public static void delete(Long id) {
+        entities.removeIf(user -> user.getId() == id);
+    }
+
     public static int size() {
         return entities.size();
     }
+
+
 
 }

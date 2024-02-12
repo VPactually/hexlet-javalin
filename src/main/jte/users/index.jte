@@ -1,5 +1,6 @@
 @import org.example.hexlet.dto.users.UsersPage
 @import org.example.hexlet.NamedRoutes
+@import org.example.hexlet.repository.UserRepository
 @param UsersPage page
 
 @template.layout.page(
@@ -24,8 +25,8 @@ content = @`
                 <form action="${NamedRoutes.usersPath()}" method="get">
                     <input type="hidden" name="page" value="1">
                     <label>
-                        <select name="per">
-                            <option value="10" selected>10</option>
+                        <select name="per" onchange="this.form.submit()">
+                            <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="50">50</option>
                         </select>
@@ -46,25 +47,17 @@ content = @`
                     <tr>
                         <td><a href="${NamedRoutes.userPath(user.getId())}">${user.getId()}</a></td>
                         <td>${user.getEmail()}</td>
-                        <td>${user.getFirstName()}</td>
+                        <td>${user.getName()}</td>
                     </tr>
                 @endfor
                 </tbody>
             </table>
-            <div class="container" align="right">
-                @if (page.getTerm() != null)
-                    <a href="${NamedRoutes.usersPath()}">Back</a>
-                @else
-                    @if (page.hasNextPage())
-                        @if (page.hasPreviousPage())
-                            <a href="${NamedRoutes.usersPath()}?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
-                        @endif
-                        <a href="${NamedRoutes.usersPath()}?page=${page.getCurrentPage()+1}&per=${page.getPerParam()}">Next</a>
-                    @else
-                        @if (page.hasPreviousPage())
-                            <a href="${NamedRoutes.usersPath()}?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
-                        @endif
-                    @endif
+            <div align="right">
+                @if(page.getPageNumber() > 1)
+                    <a href="${NamedRoutes.usersPath()}?page=${page.getPageNumber() - 1}&per=${page.getPerPage()}">Back</a>
+                @endif
+                @if(page.getPageNumber()*page.getPerPage() < UserRepository.size())
+                    <a href="${NamedRoutes.usersPath()}?page=${page.getPageNumber() + 1}&per=${page.getPerPage()}">Next</a>
                 @endif
             </div>
         @endif

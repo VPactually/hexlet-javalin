@@ -17,6 +17,8 @@ public class Pages {
         var per = ctx.queryParamAsClass("per", Integer.class).getOrDefault(10);
         var term = ctx.queryParamAsClass("term", String.class).getOrDefault(null);
 
+        page = page == 0 ? 1 : page;
+
         if (term != null) {
             term = term.toLowerCase();
             String finalTerm = term;
@@ -25,17 +27,15 @@ public class Pages {
                 list = new ArrayList<>();
             }
         }
-
-        int totalPages = list.size() / per;
         var startIndex = (page - 1) * per;
         var endIndex = Math.min(startIndex + per, list.size());
 
         switch (pages.getClass().getSimpleName()){
             case "CoursesPage" -> {
-                return new CoursesPage((List<Course>) list.subList(startIndex, endIndex), totalPages, page, term);
+                return new CoursesPage((List<Course>) list.subList(startIndex, endIndex), term, per, page);
             }
             case "UsersPage" -> {
-                return new UsersPage((List<User>) list.subList(startIndex, endIndex), totalPages, page, term);
+                return new UsersPage((List<User>) list.subList(startIndex, endIndex), term, per, page);
             }
             default -> throw new RuntimeException("Unsupported class" + page.getClass().getSimpleName());
         }

@@ -44,7 +44,7 @@
                     <use xlink:href="#bootstrap"></use>
                 </svg>
             </a>
-            <span class="text-muted">© 2021 Company, Inc <a
+            <span class="text-muted">© 2024 Company, Inc <a
                         href="https://github.com/VPactually">Created by VP</a></span>
         </div>
     </footer>

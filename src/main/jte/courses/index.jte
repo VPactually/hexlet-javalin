@@ -1,5 +1,6 @@
 @import org.example.hexlet.dto.courses.CoursesPage
 @import org.example.hexlet.NamedRoutes
+@import org.example.hexlet.repository.CourseRepository
 @param CoursesPage page
 
 @template.layout.page(
@@ -25,8 +26,8 @@ content = @`
                 <form action="${NamedRoutes.coursesPath()}" method="get">
                     <input type="hidden" name="page" value="1">
                     <label>
-                        <select name="per">
-                            <option value="10" selected>10</option>
+                        <select name="per" onchange="this.form.submit()">
+                            <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="50">50</option>
                         </select>
@@ -55,6 +56,14 @@ content = @`
                 @endfor
                 </tbody>
             </table>
+            <div align="right">
+                @if(page.getPageNumber() > 1)
+                    <a href="${NamedRoutes.coursesPath()}?page=${page.getPageNumber() - 1}&per=${page.getPerPage()}">Back</a>
+                @endif
+                @if(page.getPageNumber()*page.getPerPage() < CourseRepository.size())
+                    <a href="${NamedRoutes.coursesPath()}?page=${page.getPageNumber() + 1}&per=${page.getPerPage()}">Next</a>
+                @endif
+            </div>
         @endif
     </div>
 `

@@ -3,6 +3,7 @@ package org.example.hexlet;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import io.javalin.validation.ValidationException;
+import org.example.hexlet.controller.UsersController;
 import org.example.hexlet.dto.courses.BuildCoursePage;
 import org.example.hexlet.dto.courses.CoursePage;
 import org.example.hexlet.dto.courses.CoursesPage;
@@ -29,47 +30,14 @@ public class App {
                     "layout/welcomePage.jte",
                     Collections.singletonMap("page", new WelcomePage("Vladislav Pomozov")));
         });
-        app.get(NamedRoutes.usersPath(), ctx -> {
-            var users = UserRepository.getEntities();
-            users.sort(Comparator.comparing(User::getId));
-            var map = Collections.singletonMap("page", Pages.createPage(ctx, users, new UsersPage()));
-            ctx.render("users/index.jte", map);
-        });
-        app.get(NamedRoutes.buildUserPath(), ctx -> {
-            var page = new BuildUserPage();
-            ctx.render("users/build.jte", Collections.singletonMap("page", page));
-        });
-        app.post(NamedRoutes.usersPath(), ctx -> {
-            var name = Objects.requireNonNull(ctx.formParam("name")).trim();
-            var email = Objects.requireNonNull(ctx.formParam("email")).trim().toLowerCase(Locale.ROOT);
+        app.get(NamedRoutes.usersPath(), UsersController::index);
+        app.get(NamedRoutes.userPath("{id}"), UsersController::show);
+        app.get(NamedRoutes.buildUserPath(), UsersController::build);
+        app.post(NamedRoutes.usersPath(), UsersController::create);
+        app.get(NamedRoutes.editUserPath("{id}"), UsersController::edit);
+        app.patch(NamedRoutes.userPath("{id}"), UsersController::update);
+        app.delete(NamedRoutes.userPath("{id}"), UsersController::destroy);
 
-            try {
-                var passwordConfirmation = ctx.formParam("passwordConfirmation");
-                var password = ctx.formParamAsClass("password", String.class)
-                        .check(value -> value.equals(passwordConfirmation), "Wrong confirmation")
-                        .check(value -> value.length() > 6, "Short password")
-                        .get();
-                var user = new User(Data.getUsers().size(), name, email, password);
-                UserRepository.save(user);
-                ctx.redirect("/users");
-            } catch (ValidationException e) {
-                var page = new BuildUserPage(name, email, e.getErrors());
-                ctx.render("users/build.jte", Collections.singletonMap("page", page));
-            }
-
-
-        });
-        app.get(NamedRoutes.userPath("{id}"), ctx -> {
-            var id = Integer.parseInt(ctx.pathParam("id"));
-            if (id > Data.getUsers().size() || id < 0) {
-                ctx.status(404);
-                ctx.result("User not found");
-            } else {
-                User user = UserRepository.find((long) id).get();
-                var page = new UserPage(user);
-                ctx.render("users/show.jte", Collections.singletonMap("page", page));
-            }
-        });
         app.get(NamedRoutes.coursesPath(), ctx -> {
             var courses = CourseRepository.getEntities();
             courses.sort(Comparator.comparing(Course::getId));

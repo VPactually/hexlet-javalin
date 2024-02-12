@@ -10,19 +10,15 @@ import lombok.ToString;
 @ToString
 public final class User {
     private long id;
-    private String firstName;
+    private String name;
     private String email;
     private String password;
 
     public User(long id, String firstName, String email, String password) {
         this.id = id;
-        this.firstName = firstName;
+        this.name = firstName;
         this.email = email;
         this.password = password;
-    }
-
-    public String getName() {
-        return firstName;
     }
 
 }

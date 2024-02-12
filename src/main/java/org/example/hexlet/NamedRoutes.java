@@ -14,9 +14,13 @@ public class NamedRoutes {
         return userPath(String.valueOf(id));
     }
 
-    public static String userPath(String id){
+    public static String userPath(String id) {
         return "/users/" + id;
-     }
+    }
+
+    public static String editUserPath(String id) {
+        return "/users/" + id + "/edit";
+    }
 
 
     public static String coursesPath() {
@@ -34,4 +38,6 @@ public class NamedRoutes {
     public static String coursePath(String id) {
         return "/courses/" + id;
     }
+
+
 }

@@ -1,6 +1,8 @@
 package org.example.hexlet.dto.users;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.example.hexlet.model.pages.LongPages;
 import org.example.hexlet.model.pages.Page;
 import org.example.hexlet.model.User;
@@ -8,33 +10,37 @@ import org.example.hexlet.repository.UserRepository;
 
 import java.util.List;
 
+@NoArgsConstructor
 @Getter
 public final class UsersPage implements LongPages, Page {
     private List<User> users;
-    int totalPages;
-    int currentPage;
     private String term;
+    private int perPage;
+    private int pageNumber;
 
-    public UsersPage(List<User> users , int totalPages, int currentPage, String term) {
+    public UsersPage(List<User> users) {
         this.users = users;
-        this.totalPages = totalPages;
-        this.currentPage = currentPage;
+    }
+
+    public UsersPage(List<User> users, String term, int perPage, int pageNumber) {
+        this.users = users;
         this.term = term;
+        this.perPage = perPage;
+        this.pageNumber = pageNumber;
     }
 
-    public UsersPage() {
-
+    @Override
+    public int getPageNumber() {
+        return pageNumber;
     }
 
-    public int getPerParam() {
-        return UserRepository.size() / totalPages;
+    @Override
+    public int getTotalPages() {
+        return Math.max(users.size() / perPage, users.size());
     }
 
-    public boolean hasNextPage() {
-        return currentPage < totalPages;
-    }
-
-    public boolean hasPreviousPage() {
-        return currentPage > 1;
+    @Override
+    public int getPerPage() {
+        return perPage;
     }
 }

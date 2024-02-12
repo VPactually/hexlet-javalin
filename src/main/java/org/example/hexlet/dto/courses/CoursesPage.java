@@ -1,39 +1,47 @@
 package org.example.hexlet.dto.courses;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.example.hexlet.model.Course;
+import org.example.hexlet.model.User;
 import org.example.hexlet.model.pages.LongPages;
 import org.example.hexlet.model.pages.Page;
 import org.example.hexlet.repository.CourseRepository;
 
 import java.util.List;
+
+@NoArgsConstructor
 @Getter
 public class CoursesPage implements LongPages, Page {
     private List<Course> courses;
-    private int totalPages;
-    private int currentPage;
     private String term;
+    private int perPage;
+    private int pageNumber;
 
-    public CoursesPage(List<Course> courses, Integer totalPages, Integer currentPage, String term) {
+    public CoursesPage(List<Course> courses) {
         this.courses = courses;
-        this.currentPage = currentPage;
-        this.totalPages = totalPages;
+    }
+
+    public CoursesPage(List<Course> courses, String term, int perPage, int pageNumber) {
+        this.courses = courses;
         this.term = term;
+        this.perPage = perPage;
+        this.pageNumber = pageNumber;
     }
 
-    public CoursesPage() {
-
+    @Override
+    public int getPageNumber() {
+        return pageNumber;
     }
 
-    public int getPerParam() {
-        return CourseRepository.size() / totalPages;
+    @Override
+    public int getTotalPages() {
+        return Math.max(courses.size() / perPage, courses.size());
     }
 
-    public boolean hasNextPage() {
-        return currentPage < totalPages;
-    }
-
-    public boolean hasPreviousPage() {
-        return currentPage > 1;
+    @Override
+    public int getPerPage() {
+        return perPage;
     }
 }

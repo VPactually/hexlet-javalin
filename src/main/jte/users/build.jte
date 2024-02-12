@@ -1,3 +1,4 @@
+@import org.example.hexlet.NamedRoutes
 @import org.example.hexlet.dto.users.BuildUserPage
 @param BuildUserPage page
 
@@ -14,17 +15,17 @@
             </ul>
         @endif
 
-        <form action="/users" method="post">
+        <form action="${NamedRoutes.usersPath()}" method="post">
             <div>
                 <label>
                     Имя
-                    <input type="text" name="name" value="${page.getName()}"/>
+                    <input type="text" name="name" value="name"/>
                 </label>
             </div>
             <div>
                 <label>
                     Email
-                    <input type="email" required name="email" value="${page.getEmail()}"/>
+                    <input type="email" required name="email" value="email"/>
                 </label>
             </div>
             <div>
