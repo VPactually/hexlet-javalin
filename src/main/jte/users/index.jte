@@ -8,7 +8,6 @@ content = @`
         <a href="/users/build">Create user</a>
     </div>
     <div class="container">
-
         @if(page.getUsers().isEmpty())
             <p>Not found any users</p>
             <a href="/users">Back</a>
@@ -20,6 +19,19 @@ content = @`
                 </label>
                 <input class="nav-link" type="submit" value="Search">
             </form>
+            <div align="right">
+                <form action="/users" method="get">
+                    <input type="hidden" name="page" value="1">
+                    <label>
+                        <select name="per">
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </label>
+                    <input class="btn btn-primary btn-sm" type="submit" value="Show">
+                </form>
+            </div>
             <table class="table">
                 <thead>
                 <tr>
@@ -37,25 +49,23 @@ content = @`
                     </tr>
                 @endfor
                 </tbody>
-                <tr>
-                    <td colspan="4">
-                        @if (page.getTerm() != null)
-                            <a href="/users">Back</a>
-                        @else
-                            @if (page.getCurrentPage() < page.getTotalPages())
-                                @if (page.getCurrentPage() > 1)
-                                    <a href="/users?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
-                                @endif
-                                <a href="/users?page=${page.getCurrentPage()+1}&per=${page.getPerParam()}">Next</a>
-                            @else
-                                @if (page.getCurrentPage() > 1)
-                                    <a href="/users?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
-                                @endif
-                            @endif
-                        @endif
-                    </td>
-                </tr>
             </table>
+            <div class="container" align="right">
+                @if (page.getTerm() != null)
+                    <a href="/users">Back</a>
+                @else
+                    @if (page.hasNextPage())
+                        @if (page.hasPreviousPage())
+                            <a href="/users?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
+                        @endif
+                        <a href="/users?page=${page.getCurrentPage()+1}&per=${page.getPerParam()}">Next</a>
+                    @else
+                        @if (page.hasPreviousPage())
+                            <a href="/users?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
+                        @endif
+                    @endif
+                @endif
+            </div>
         @endif
     </div>
 `

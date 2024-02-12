@@ -2,8 +2,11 @@ package org.example.hexlet;
 
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
+import io.javalin.validation.ValidationException;
+import org.example.hexlet.dto.courses.BuildCoursePage;
 import org.example.hexlet.dto.courses.CoursePage;
 import org.example.hexlet.dto.courses.CoursesPage;
+import org.example.hexlet.dto.users.BuildUserPage;
 import org.example.hexlet.dto.users.UserPage;
 import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.*;
@@ -16,15 +19,7 @@ import java.util.*;
 
 public class App {
 
-    public static List<User> usersFromRepo;
-    public static List<Course> coursesFromRepo;
-
-
     public static void main(String[] args) {
-        usersFromRepo = UserRepository.getEntities();
-        usersFromRepo.sort(Comparator.comparing(User::getId));
-        coursesFromRepo = CourseRepository.getEntities();
-        coursesFromRepo.sort(Comparator.comparing(Course::getId));
         var app = Javalin.create(javalinConfig -> {
             javalinConfig.bundledPlugins.enableDevLogging();
             javalinConfig.fileRenderer(new JavalinJte());
@@ -39,56 +34,80 @@ public class App {
             ctx.result(String.format("Hello, %s!", name));
         });
         app.get("/users", ctx -> {
-            var map = Map.of("page", Pages.createPage(ctx, usersFromRepo, new UsersPage()));
+            var users = UserRepository.getEntities();
+            users.sort(Comparator.comparing(User::getId));
+            var map = Collections.singletonMap("page", Pages.createPage(ctx, users, new UsersPage()));
             ctx.render("users/index.jte", map);
         });
         app.get("/users/build", ctx -> {
-            ctx.render("users/build.jte");
+            var page = new BuildUserPage();
+            ctx.render("users/build.jte", Collections.singletonMap("page", page));
         });
         app.post("/users", ctx -> {
-            var name = ctx.formParam("name").trim();
-            var email = ctx.formParam("email").trim().toLowerCase(Locale.ROOT);
-            var password = ctx.formParam("password");
-            var passwordConfirmation = ctx.formParam("passwordConfirmation");
+            var name = Objects.requireNonNull(ctx.formParam("name")).trim();
+            var email = Objects.requireNonNull(ctx.formParam("email")).trim().toLowerCase(Locale.ROOT);
 
-            var user = new User(usersFromRepo.size(), name, email, password);
-            UserRepository.save(user);
-            ctx.redirect("/users");
+            try {
+                var passwordConfirmation = ctx.formParam("passwordConfirmation");
+                var password = ctx.formParamAsClass("password", String.class)
+                        .check(value -> value.equals(passwordConfirmation), "Wrong confirmation")
+                        .check(value -> value.length() > 6, "Short password")
+                        .get();
+                var user = new User(Data.getUsers().size(), name, email, password);
+                UserRepository.save(user);
+                ctx.redirect("/users");
+            } catch (ValidationException e) {
+                var page = new BuildUserPage(name, email, e.getErrors());
+                ctx.render("users/build.jte", Collections.singletonMap("page", page));
+            }
+
 
         });
         app.get("/users/{id}", ctx -> {
-            var id = Integer.parseInt(ctx.pathParam("id")) - 1;
-            if (id > usersFromRepo.size() || id < 0) {
+            var id = Integer.parseInt(ctx.pathParam("id"));
+            if (id > Data.getUsers().size() || id < 0) {
                 ctx.status(404);
                 ctx.result("User not found");
             } else {
-                User user = usersFromRepo.get(id);
+                User user = UserRepository.find((long) id).get();
                 var page = new UserPage(user);
                 ctx.render("users/show.jte", Collections.singletonMap("page", page));
             }
         });
         app.get("/courses", ctx -> {
-
-            ctx.render("courses/index.jte", Collections.singletonMap("page", Pages.createPage(ctx, coursesFromRepo, new CoursesPage())));
+            var courses = CourseRepository.getEntities();
+            courses.sort(Comparator.comparing(Course::getId));
+            var map = Collections.singletonMap("page", Pages.createPage(ctx, courses, new CoursesPage()));
+            ctx.render("courses/index.jte", map);
         });
         app.get("/courses/build", ctx -> {
-            ctx.render("courses/build.jte");
+            var page = new BuildCoursePage();
+            ctx.render("courses/build.jte", Collections.singletonMap("page", page));
         });
         app.post("/courses", ctx -> {
-            var name = ctx.formParam("name");
-            var description = ctx.formParam("description");
-            var course = new Course(name, description, (long) coursesFromRepo.size());
-
-            CourseRepository.save(course);
-            ctx.redirect("/courses");
+            try {
+                var name = ctx.formParamAsClass("name", String.class)
+                        .check(value -> value.length() > 2, "Short name")
+                        .get();
+                var description = ctx.formParamAsClass("description", String.class)
+                        .check(value -> value.length() > 10, "Short description")
+                        .get();
+                var course = new Course(name, description, (long) CourseRepository.getEntities().size());
+                CourseRepository.save(course);
+                ctx.redirect("/courses");
+            } catch (ValidationException e) {
+                var page = new BuildCoursePage();
+                page.setErrors(e.getErrors());
+                ctx.render("courses/build.jte", Collections.singletonMap("page", page));
+            }
         });
         app.get("/courses/{id}", ctx -> {
             var id = Integer.parseInt(ctx.pathParam("id")) - 1;
-            if (id > coursesFromRepo.size() || id < 0) {
+            if (id > CourseRepository.getEntities().size() || id < 0) {
                 ctx.status(404);
                 ctx.result("Course not found");
             } else {
-                Course course = coursesFromRepo.get(id);
+                Course course = CourseRepository.getEntities().get(id);
                 var page = new CoursePage(course);
                 ctx.render("courses/show.jte", Collections.singletonMap("page", page));
             }

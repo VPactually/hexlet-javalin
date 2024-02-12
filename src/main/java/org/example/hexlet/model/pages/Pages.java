@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 public class Pages {
 
-    public static<T> LongPages createPage(Context ctx, List<T> list, LongPages page){
-        var pg = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
+    public static<T> LongPages createPage(Context ctx, List<T> list, LongPages pages){
+        var page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
         var per = ctx.queryParamAsClass("per", Integer.class).getOrDefault(10);
         var term = ctx.queryParamAsClass("term", String.class).getOrDefault(null);
 
@@ -21,21 +21,21 @@ public class Pages {
             term = term.toLowerCase();
             String finalTerm = term;
             list = list.stream().filter(el -> el.toString().toLowerCase().contains(finalTerm)).collect(Collectors.toList());
-           if (list.isEmpty()) {
-               list = new ArrayList<>();
-           }
+            if (list.isEmpty()) {
+                list = new ArrayList<>();
+            }
         }
 
         int totalPages = list.size() / per;
-        var startIndex = (pg - 1) * per;
+        var startIndex = (page - 1) * per;
         var endIndex = Math.min(startIndex + per, list.size());
 
-        switch (page.getClass().getSimpleName()){
+        switch (pages.getClass().getSimpleName()){
             case "CoursesPage" -> {
-                return new CoursesPage((List<Course>) list.subList(startIndex, endIndex), "Courses Page", totalPages, pg, term);
+                return new CoursesPage((List<Course>) list.subList(startIndex, endIndex), totalPages, page, term);
             }
             case "UsersPage" -> {
-                return new UsersPage((List<User>) list.subList(startIndex, endIndex), "UsersPage", totalPages, pg, term);
+                return new UsersPage((List<User>) list.subList(startIndex, endIndex), totalPages, page, term);
             }
             default -> throw new RuntimeException("Unsupported class" + page.getClass().getSimpleName());
         }

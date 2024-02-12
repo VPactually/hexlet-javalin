@@ -7,6 +7,7 @@ content = @`
     <div class="container" align="right">
         <a href="/courses/build">Create course</a>
     </div>
+
     <div class="container">
         @if(page.getCourses().isEmpty())
             <p>Not found any courses</p>
@@ -19,6 +20,20 @@ content = @`
                 </label>
                 <input class="nav-link" type="submit" value="Искать">
             </form>
+            <div align="right">
+                <form action="/courses" method="get">
+                    <input type="hidden" name="page" value="1">
+                    <label>
+                        <select name="per">
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </label>
+                    <input class="btn btn-primary btn-sm" type="submit" value="Show">
+                </form>
+            </div>
+
             <table class="table">
                 <thead>
                 <tr>
@@ -36,25 +51,8 @@ content = @`
                         <td>${course.getDescription()}</td>
                         <td>${course.toString()}</td>
                     </tr>
-
                 @endfor
                 </tbody>
-                <tr>
-                    <td colspan="4">
-                        @if (page.getTerm() != null)
-                            <a href="/courses">Back</a>
-                        @else
-                        @if (page.getCurrentPage() < page.getTotalPages())
-                        @if (page.getCurrentPage() > 1)
-                            <a href="/courses?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
-                        @endif
-                        <a href="/courses?page=${page.getCurrentPage()+1}&per=${page.getPerParam()}">Next</a>
-                    </td>
-                    @else
-                        <a href="/courses?page=${page.getCurrentPage()-1}&per=${page.getPerParam()}">Previous</a>
-                    @endif
-                    @endif
-                </tr>
             </table>
         @endif
     </div>
