@@ -2,11 +2,13 @@ package org.example.hexlet.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.example.hexlet.model.Course;
 import org.example.hexlet.model.Data;
+import org.example.hexlet.model.User;
 
 @Setter
 public class CourseRepository {
@@ -30,6 +32,10 @@ public class CourseRepository {
                 .filter(entity -> entity.getId() == id)
                 .findAny();
         return maybeCourse;
+    }
+
+    public static void update(Course course) {
+        entities = entities.stream().map(c -> c.getId() == course.getId() ? course : c).collect(Collectors.toList());
     }
 
     public static int size() {

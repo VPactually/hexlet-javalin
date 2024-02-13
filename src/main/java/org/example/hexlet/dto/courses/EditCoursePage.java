@@ -1,20 +1,21 @@
-package org.example.hexlet.dto.users;
+package org.example.hexlet.dto.courses;
 
+import io.javalin.validation.ValidationError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import io.javalin.validation.ValidationError;
 import lombok.Setter;
+import org.example.hexlet.model.Course;
 import org.example.hexlet.model.pages.Page;
 
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
-public class BuildUserPage implements Page {
-    private String name;
-    private String email;
+@Setter
+public class EditCoursePage implements Page {
+    private Course course;
     private Map<String, List<ValidationError<Object>>> errors;
 }

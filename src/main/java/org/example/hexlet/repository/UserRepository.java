@@ -2,6 +2,7 @@ package org.example.hexlet.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,10 @@ public class UserRepository {
 
     public static void delete(Long id) {
         entities.removeIf(user -> user.getId() == id);
+    }
+
+    public static void update(User user) {
+        entities = entities.stream().map(u -> u.getId() == user.getId() ? user : u).collect(Collectors.toList());
     }
 
     public static int size() {

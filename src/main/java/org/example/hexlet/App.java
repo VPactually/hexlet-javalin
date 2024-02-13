@@ -3,6 +3,7 @@ package org.example.hexlet;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import io.javalin.validation.ValidationException;
+import org.example.hexlet.controller.CoursesController;
 import org.example.hexlet.controller.UsersController;
 import org.example.hexlet.dto.courses.BuildCoursePage;
 import org.example.hexlet.dto.courses.CoursePage;
@@ -31,51 +32,21 @@ public class App {
                     Collections.singletonMap("page", new WelcomePage("Vladislav Pomozov")));
         });
         app.get(NamedRoutes.usersPath(), UsersController::index);
-        app.get(NamedRoutes.userPath("{id}"), UsersController::show);
         app.get(NamedRoutes.buildUserPath(), UsersController::build);
-        app.post(NamedRoutes.usersPath(), UsersController::create);
+        app.get(NamedRoutes.userPath("{id}"), UsersController::show);
         app.get(NamedRoutes.editUserPath("{id}"), UsersController::edit);
-        app.patch(NamedRoutes.userPath("{id}"), UsersController::update);
+        app.post(NamedRoutes.usersPath(), UsersController::create);
+        app.post(NamedRoutes.userPath("{id}"), UsersController::update);
+
         app.delete(NamedRoutes.userPath("{id}"), UsersController::destroy);
 
-        app.get(NamedRoutes.coursesPath(), ctx -> {
-            var courses = CourseRepository.getEntities();
-            courses.sort(Comparator.comparing(Course::getId));
-            var map = Collections.singletonMap("page", Pages.createPage(ctx, courses, new CoursesPage()));
-            ctx.render("courses/index.jte", map);
-        });
-        app.get(NamedRoutes.buildCoursePath(), ctx -> {
-            var page = new BuildCoursePage();
-            ctx.render("courses/build.jte", Collections.singletonMap("page", page));
-        });
-        app.post(NamedRoutes.coursesPath(), ctx -> {
-            try {
-                var name = ctx.formParamAsClass("name", String.class)
-                        .check(value -> value.length() > 2, "Short name")
-                        .get();
-                var description = ctx.formParamAsClass("description", String.class)
-                        .check(value -> value.length() > 10, "Short description")
-                        .get();
-                var course = new Course(name, description, (long) CourseRepository.getEntities().size());
-                CourseRepository.save(course);
-                ctx.redirect("/courses");
-            } catch (ValidationException e) {
-                var page = new BuildCoursePage();
-                page.setErrors(e.getErrors());
-                ctx.render("courses/build.jte", Collections.singletonMap("page", page));
-            }
-        });
-        app.get(NamedRoutes.coursePath("{id}"), ctx -> {
-            var id = Integer.parseInt(ctx.pathParam("id")) - 1;
-            if (id > CourseRepository.getEntities().size() || id < 0) {
-                ctx.status(404);
-                ctx.result("Course not found");
-            } else {
-                Course course = CourseRepository.getEntities().get(id);
-                var page = new CoursePage(course);
-                ctx.render("courses/show.jte", Collections.singletonMap("page", page));
-            }
-        });
+        app.get(NamedRoutes.coursesPath(), CoursesController::index);
+        app.get(NamedRoutes.buildCoursePath(), CoursesController::build);
+        app.get(NamedRoutes.coursePath("{id}"), CoursesController::show);
+        app.get(NamedRoutes.editCoursePath("{id}"), CoursesController::edit);
+        app.post(NamedRoutes.coursesPath(), CoursesController::create);
+        app.post(NamedRoutes.coursePath("{id}"), CoursesController::update);
+
         app.start(7070);
     }
 
