@@ -37,7 +37,6 @@ public class App {
         app.get(NamedRoutes.editUserPath("{id}"), UsersController::edit);
         app.post(NamedRoutes.usersPath(), UsersController::create);
         app.post(NamedRoutes.userPath("{id}"), UsersController::update);
-
         app.delete(NamedRoutes.userPath("{id}"), UsersController::destroy);
 
         app.get(NamedRoutes.coursesPath(), CoursesController::index);
@@ -46,6 +45,7 @@ public class App {
         app.get(NamedRoutes.editCoursePath("{id}"), CoursesController::edit);
         app.post(NamedRoutes.coursesPath(), CoursesController::create);
         app.post(NamedRoutes.coursePath("{id}"), CoursesController::update);
+        app.delete(NamedRoutes.coursePath("{id}"), CoursesController::destroy);
 
         app.start(7070);
     }

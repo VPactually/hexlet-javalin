@@ -86,4 +86,10 @@ public class CoursesController {
         }
     }
 
+    public static void destroy(Context ctx) {
+        var id = ctx.pathParamAsClass("id", Long.class).get();
+        CourseRepository.delete(id);
+        ctx.redirect(NamedRoutes.coursesPath());
+    }
+
 }

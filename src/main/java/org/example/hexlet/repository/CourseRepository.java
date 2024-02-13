@@ -34,6 +34,10 @@ public class CourseRepository {
         return maybeCourse;
     }
 
+    public static void delete(Long id) {
+        entities.removeIf(course -> course.getId() == id);
+    }
+
     public static void update(Course course) {
         entities = entities.stream().map(c -> c.getId() == course.getId() ? course : c).collect(Collectors.toList());
     }
