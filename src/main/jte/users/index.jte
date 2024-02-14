@@ -8,6 +8,7 @@ page = page,
 content = @`
     <div class="container" align="right">
         <a href="${NamedRoutes.buildUserPath()}">Create user</a>
+
     </div>
     <div class="container">
         @if(page.getUsers().isEmpty())
@@ -52,14 +53,16 @@ content = @`
                 @endfor
                 </tbody>
             </table>
-            <div align="right">
-                @if(page.getPageNumber() > 1)
-                    <a href="${NamedRoutes.usersPath()}?page=${page.getPageNumber() - 1}&per=${page.getPerPage()}">Back</a>
-                @endif
-                @if(page.getPageNumber()*page.getPerPage() < UserRepository.size())
-                    <a href="${NamedRoutes.usersPath()}?page=${page.getPageNumber() + 1}&per=${page.getPerPage()}">Next</a>
-                @endif
-            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item ${page.getPageNumber() > 1 ? "" : "disabled"}">
+                        <a class="page-link" href="${NamedRoutes.coursesPath()}?page=${page.getPageNumber() - 1}&per=${page.getPerPage()}">Previous</a>
+                    </li>
+                    <li class="page-item ${page.getPageNumber()*page.getPerPage() < UserRepository.size() ? "" : "disabled"}">
+                        <a class="page-link" href="${NamedRoutes.coursesPath()}?page=${page.getPageNumber() + 1}&per=${page.getPerPage()}">Next</a>
+                    </li>
+                </ul>
+            </nav>
         @endif
     </div>
 `

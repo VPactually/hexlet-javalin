@@ -3,7 +3,14 @@
 
 @template.layout.page(
 content = @`
-    <h2>Welcome !!!</h2>
+    @if(page.getName() != null)
+        <h2>Welcome, ${page.getName()}!!!</h2>
+    @else
+        <h2>Welcome !!!</h2>
+    @endif
+    @if(!page.isVisited())
+        <h3>You see it only once</h3>
+    @endif
 `,
-    page = page
+page = page
 )

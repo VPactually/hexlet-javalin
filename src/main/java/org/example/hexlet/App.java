@@ -27,9 +27,11 @@ public class App {
             javalinConfig.fileRenderer(new JavalinJte());
         });
         app.get("/", ctx -> {
-            ctx.render(
-                    "layout/welcomePage.jte",
-                    Collections.singletonMap("page", new WelcomePage("Vladislav Pomozov")));
+            var visited = Boolean.valueOf(ctx.cookie("visited"));
+            var page = new WelcomePage("Vladislav");
+            page.setVisited(visited);
+            ctx.render("layout/welcomePage.jte", Collections.singletonMap("page", page));
+            ctx.cookie("visited", String.valueOf(true));
         });
         app.get(NamedRoutes.usersPath(), UsersController::index);
         app.get(NamedRoutes.buildUserPath(), UsersController::build);
@@ -37,7 +39,7 @@ public class App {
         app.get(NamedRoutes.editUserPath("{id}"), UsersController::edit);
         app.post(NamedRoutes.usersPath(), UsersController::create);
         app.post(NamedRoutes.userPath("{id}"), UsersController::update);
-        app.delete(NamedRoutes.userPath("{id}"), UsersController::destroy);
+        app.delete(NamedRoutes.deleteUserPath("{id}"), UsersController::destroy);
 
         app.get(NamedRoutes.coursesPath(), CoursesController::index);
         app.get(NamedRoutes.buildCoursePath(), CoursesController::build);

@@ -92,8 +92,11 @@ public class UsersController {
 
     public static void destroy(Context ctx) {
         var id = ctx.pathParamAsClass("id", Long.class).get();
-        UserRepository.delete(id);
-        ctx.redirect(NamedRoutes.usersPath());
+        var method = ctx.formParamAsClass("_method", String.class).get();
+        if (method.equals("delete")) {
+            UserRepository.delete(id);
+            ctx.redirect(NamedRoutes.usersPath());
+        }
     }
 
 
