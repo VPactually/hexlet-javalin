@@ -3,6 +3,7 @@ package org.example.hexlet.dto.users;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.example.hexlet.model.pages.LongPages;
 import org.example.hexlet.model.pages.Page;
 import org.example.hexlet.model.User;
@@ -12,11 +13,14 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public final class UsersPage implements LongPages, Page {
     private List<User> users;
     private String term;
     private int perPage;
     private int pageNumber;
+    private Object flash;
+
 
     public UsersPage(List<User> users) {
         this.users = users;
@@ -42,5 +46,9 @@ public final class UsersPage implements LongPages, Page {
     @Override
     public int getPerPage() {
         return perPage;
+    }
+
+    public Object getFlash() {
+        return flash;
     }
 }

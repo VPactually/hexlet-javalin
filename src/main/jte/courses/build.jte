@@ -3,12 +3,12 @@
 
 @template.layout.page(page = page,
 content = @`
-    <div class="container" align="left">
+    <div class="container" align="left" >
     @if (page.getErrors() != null)
-        <ul>
+        <ul >
             @for (var validator : page.getErrors().values())
                 @for (var error : validator)
-                    <li>${error.getMessage()}</li>
+                    <li class="alert alert-danger">${error.getMessage()}</li>
                 @endfor
             @endfor
         </ul>

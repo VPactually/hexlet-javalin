@@ -63,5 +63,7 @@ public class NamedRoutes {
 
     public static String sessionsPath() { return "/sessions";}
 
+    public static String deleteSessionPath() {return "/sessions/delete";}
+
 
 }

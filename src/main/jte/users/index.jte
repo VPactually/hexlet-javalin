@@ -15,6 +15,9 @@ content = @`
             <p>Not found any users</p>
             <a href="${NamedRoutes.usersPath()}">Back</a>
         @else
+            @if(page.getFlash() != null)
+                <p class="alert alert-success" role="alert">${page.getFlash().toString()}</p>
+            @endif
             <h2>Users list</h2>
             <form class="nav active" action="${NamedRoutes.usersPath()}" method="get">
                 <label>
@@ -56,10 +59,12 @@ content = @`
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                     <li class="page-item ${page.getPageNumber() > 1 ? "" : "disabled"}">
-                        <a class="page-link" href="${NamedRoutes.coursesPath()}?page=${page.getPageNumber() - 1}&per=${page.getPerPage()}">Previous</a>
+                        <a class="page-link"
+                           href="${NamedRoutes.usersPath()}?page=${page.getPageNumber() - 1}&per=${page.getPerPage()}">Previous</a>
                     </li>
                     <li class="page-item ${page.getPageNumber()*page.getPerPage() < UserRepository.size() ? "" : "disabled"}">
-                        <a class="page-link" href="${NamedRoutes.coursesPath()}?page=${page.getPageNumber() + 1}&per=${page.getPerPage()}">Next</a>
+                        <a class="page-link"
+                           href="${NamedRoutes.usersPath()}?page=${page.getPageNumber() + 1}&per=${page.getPerPage()}">Next</a>
                     </li>
                 </ul>
             </nav>

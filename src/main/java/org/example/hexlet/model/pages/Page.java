@@ -7,4 +7,6 @@ public interface Page {
         return this.getClass().getSimpleName();
     }
 
+
+
 }

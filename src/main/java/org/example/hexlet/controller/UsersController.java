@@ -50,6 +50,7 @@ public class UsersController {
                     .get();
             var user = new User(Data.getUsers().size(), name, email, password);
             UserRepository.save(user);
+            ctx.sessionAttribute("flash", "User has been created!");
             ctx.redirect(NamedRoutes.usersPath());
         } catch (ValidationException e) {
             var page = new BuildUserPage(name, email, e.getErrors());

@@ -53,7 +53,7 @@ public class App {
 
         app.get(NamedRoutes.sessionsBuildPath(), SessionsController::build);
         app.post(NamedRoutes.sessionsPath(), SessionsController::create);
-        app.delete(NamedRoutes.sessionsPath(), SessionsController::destroy);
+        app.post(NamedRoutes.deleteSessionPath(), SessionsController::destroy);
 
         app.start(7070);
     }

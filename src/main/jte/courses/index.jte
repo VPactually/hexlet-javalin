@@ -15,7 +15,11 @@ content = @`
             <p>Not found any courses</p>
             <a href="${NamedRoutes.coursesPath()}">Back</a>
         @else
+            @if(page.getFlash() != null)
+                <p class="alert alert-success" role="alert">${page.getFlash().toString()}</p>
+            @endif
             <h2>Courses list</h2>
+
             <form class="nav active" action="${NamedRoutes.coursesPath()}" method="get">
                 <label>
                     <input type="search" required name="term">
@@ -59,10 +63,12 @@ content = @`
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                     <li class="page-item ${page.getPageNumber() > 1 ? "" : "disabled"}">
-                        <a class="page-link" href="${NamedRoutes.coursesPath()}?page=${page.getPageNumber() - 1}&per=${page.getPerPage()}">Previous</a>
+                        <a class="page-link"
+                           href="${NamedRoutes.coursesPath()}?page=${page.getPageNumber() - 1}&per=${page.getPerPage()}">Previous</a>
                     </li>
                     <li class="page-item ${page.getPageNumber()*page.getPerPage() < CourseRepository.size() ? "" : "disabled"}">
-                        <a class="page-link" href="${NamedRoutes.coursesPath()}?page=${page.getPageNumber() + 1}&per=${page.getPerPage()}">Next</a>
+                        <a class="page-link"
+                           href="${NamedRoutes.coursesPath()}?page=${page.getPageNumber() + 1}&per=${page.getPerPage()}">Next</a>
                     </li>
                 </ul>
             </nav>

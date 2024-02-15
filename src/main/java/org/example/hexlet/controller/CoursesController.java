@@ -53,7 +53,8 @@ public class CoursesController {
                     .get();
             var course = new Course(name, description, (long) CourseRepository.getEntities().size());
             CourseRepository.save(course);
-            ctx.redirect("/courses");
+            ctx.sessionAttribute("flash", "Course has been created!");
+            ctx.redirect(NamedRoutes.coursesPath());
         } catch (ValidationException e) {
             var page = new BuildCoursePage();
             page.setErrors(e.getErrors());

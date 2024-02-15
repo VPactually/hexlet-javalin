@@ -16,6 +16,7 @@ public class Pages {
         var page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
         var per = ctx.queryParamAsClass("per", Integer.class).getOrDefault(10);
         var term = ctx.queryParamAsClass("term", String.class).getOrDefault(null);
+        var flash = ctx.consumeSessionAttribute("flash");
 
         page = page == 0 ? 1 : page;
 
@@ -32,10 +33,18 @@ public class Pages {
 
         switch (pages.getClass().getSimpleName()){
             case "CoursesPage" -> {
-                return new CoursesPage((List<Course>) list.subList(startIndex, endIndex), term, per, page);
+                var result = new CoursesPage((List<Course>) list.subList(startIndex, endIndex), term, per, page);
+                if (flash != null) {
+                    result.setFlash(flash);
+                }
+                return result;
             }
             case "UsersPage" -> {
-                return new UsersPage((List<User>) list.subList(startIndex, endIndex), term, per, page);
+                var result = new UsersPage((List<User>) list.subList(startIndex, endIndex), term, per, page);
+                if (flash != null) {
+                    result.setFlash(flash);
+                }
+                return result;
             }
             default -> throw new RuntimeException("Unsupported class" + page.getClass().getSimpleName());
         }
