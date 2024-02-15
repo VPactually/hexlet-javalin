@@ -26,9 +26,13 @@ public class NamedRoutes {
         return "/users/" + id + "/edit";
     }
 
-    public static String deleteUserPath(String id) { return "/users/d/" + id;}
-    public static String deleteUserPath(Long id) { return deleteUserPath(String.valueOf(id));}
+    public static String deleteUserPath(String id) {
+        return "/users/d/" + id;
+    }
 
+    public static String deleteUserPath(Long id) {
+        return deleteUserPath(String.valueOf(id));
+    }
 
 
     public static String coursesPath() {
@@ -54,6 +58,10 @@ public class NamedRoutes {
     public static String editCoursePath(String id) {
         return "/courses/" + id + "/edit";
     }
+
+    public static String sessionsBuildPath() {return "/sessions/build";}
+
+    public static String sessionsPath() { return "/sessions";}
 
 
 }

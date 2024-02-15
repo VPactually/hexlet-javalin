@@ -4,6 +4,7 @@ import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import io.javalin.validation.ValidationException;
 import org.example.hexlet.controller.CoursesController;
+import org.example.hexlet.controller.SessionsController;
 import org.example.hexlet.controller.UsersController;
 import org.example.hexlet.dto.courses.BuildCoursePage;
 import org.example.hexlet.dto.courses.CoursePage;
@@ -27,8 +28,9 @@ public class App {
             javalinConfig.fileRenderer(new JavalinJte());
         });
         app.get("/", ctx -> {
-            var visited = Boolean.valueOf(ctx.cookie("visited"));
-            var page = new WelcomePage("Vladislav");
+            var visited = Boolean.parseBoolean(ctx.cookie("visited"));
+            var page = new WelcomePage();
+            page.setName(ctx.sessionAttribute("currentUser"));
             page.setVisited(visited);
             ctx.render("layout/welcomePage.jte", Collections.singletonMap("page", page));
             ctx.cookie("visited", String.valueOf(true));
@@ -48,6 +50,10 @@ public class App {
         app.post(NamedRoutes.coursesPath(), CoursesController::create);
         app.post(NamedRoutes.coursePath("{id}"), CoursesController::update);
         app.delete(NamedRoutes.coursePath("{id}"), CoursesController::destroy);
+
+        app.get(NamedRoutes.sessionsBuildPath(), SessionsController::build);
+        app.post(NamedRoutes.sessionsPath(), SessionsController::create);
+        app.delete(NamedRoutes.sessionsPath(), SessionsController::destroy);
 
         app.start(7070);
     }
