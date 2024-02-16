@@ -13,7 +13,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Getter
 public class BuildSessionPage implements Page {
-    private String nickname;
+    private String email;
     private String password;
     private Map<String, List<ValidationError<Object>>> errors;
 }

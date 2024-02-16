@@ -1,6 +1,6 @@
 @import org.example.hexlet.dto.users.UsersPage
 @import org.example.hexlet.NamedRoutes
-@import org.example.hexlet.repository.UserRepository
+@import org.example.hexlet.repository.repositories.UserRepository
 @param UsersPage page
 
 @template.layout.page(

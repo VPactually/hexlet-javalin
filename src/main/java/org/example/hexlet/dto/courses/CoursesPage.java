@@ -1,14 +1,11 @@
 package org.example.hexlet.dto.courses;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.hexlet.model.Course;
-import org.example.hexlet.model.User;
 import org.example.hexlet.model.pages.LongPages;
 import org.example.hexlet.model.pages.Page;
-import org.example.hexlet.repository.CourseRepository;
 
 import java.util.List;
 

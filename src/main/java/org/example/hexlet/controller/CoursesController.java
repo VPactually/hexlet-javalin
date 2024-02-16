@@ -8,12 +8,11 @@ import org.example.hexlet.dto.courses.BuildCoursePage;
 import org.example.hexlet.dto.courses.CoursePage;
 import org.example.hexlet.dto.courses.CoursesPage;
 import org.example.hexlet.dto.courses.EditCoursePage;
-import org.example.hexlet.dto.users.EditUserPage;
 import org.example.hexlet.model.Course;
 import org.example.hexlet.model.pages.Pages;
-import org.example.hexlet.repository.CourseRepository;
-import org.example.hexlet.repository.UserRepository;
+import org.example.hexlet.repository.repositories.CourseRepository;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -78,7 +77,7 @@ public class CoursesController {
             var name = ctx.formParamAsClass("name", String.class).getOrDefault(null);
             var description = ctx.formParamAsClass("description", String.class).getOrDefault(null);
             course.setName(name != null ? name : course.getName());
-            course.setDescription(description != null ? description : course.getDescription());
+            course.setBody(description != null ? description : course.getBody());
             CourseRepository.update(course);
             ctx.redirect(NamedRoutes.coursesPath());
         } catch (ValidationException e) {

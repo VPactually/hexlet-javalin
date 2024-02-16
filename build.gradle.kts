@@ -29,6 +29,12 @@ dependencies {
     implementation("net.datafaker:datafaker:2.0.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
     implementation("org.apache.commons:commons-text:1.10.0")
+    implementation("org.postgresql:postgresql:42.6.0")
+    implementation("com.h2database:h2:2.2.220")
+    implementation("com.zaxxer:HikariCP:5.0.1")
+    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.assertj:assertj-core:3.23.1")
 }
 
 

@@ -1,16 +1,16 @@
-package gg.jte.generated.ondemand.courses;
-import org.example.hexlet.dto.courses.CoursesPage;
+package gg.jte.generated.ondemand.users;
+import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.NamedRoutes;
-import org.example.hexlet.repository.repositories.CourseRepository;
+import org.example.hexlet.repository.repositories.UserRepository;
 public final class JteindexGenerated {
-	public static final String JTE_NAME = "courses/index.jte";
-	public static final int[] JTE_LINE_INFO = {0,0,1,2,3,3,3,5,5,8,8,10,10,10,10,10,10,10,10,10,14,14,16,16,16,16,16,16,16,16,16,17,17,18,18,19,19,19,20,20,23,23,23,23,23,23,23,23,23,30,30,30,30,30,30,30,30,30,53,53,55,55,55,55,55,55,55,55,55,55,55,55,56,56,56,57,57,57,58,58,58,60,60,65,65,65,65,67,67,67,67,67,67,67,67,67,67,67,67,69,69,69,69,71,71,71,71,71,71,71,71,71,71,71,71,75,75,77,77,77,77,77,3,3,3,3};
-	public static void render(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, CoursesPage page) {
+	public static final String JTE_NAME = "users/index.jte";
+	public static final int[] JTE_LINE_INFO = {0,0,1,2,3,3,3,5,5,8,8,10,10,10,10,10,10,10,10,10,14,14,16,16,16,16,16,16,16,16,16,17,17,18,18,19,19,19,20,20,22,22,22,22,22,22,22,22,22,29,29,29,29,29,29,29,29,29,50,50,52,52,52,52,52,52,52,52,52,52,52,52,53,53,53,54,54,54,56,56,61,61,61,61,63,63,63,63,63,63,63,63,63,63,63,63,65,65,65,65,67,67,67,67,67,67,67,67,67,67,67,67,71,71,73,73,73,74,74,74,3,3,3,3};
+	public static void render(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, UsersPage page) {
 		jteOutput.writeContent("\n");
 		gg.jte.generated.ondemand.layout.JtepageGenerated.render(jteOutput, jteHtmlInterceptor, page, new gg.jte.html.HtmlContent() {
 			public void writeTo(gg.jte.html.HtmlTemplateOutput jteOutput) {
 				jteOutput.writeContent("\n    <div class=\"container\" align=\"right\">\n        <a");
-				var __jte_html_attribute_0 = NamedRoutes.buildCoursePath();
+				var __jte_html_attribute_0 = NamedRoutes.buildUserPath();
 				if (gg.jte.runtime.TemplateUtils.isAttributeRendered(__jte_html_attribute_0)) {
 					jteOutput.writeContent(" href=\"");
 					jteOutput.setContext("a", "href");
@@ -18,10 +18,10 @@ public final class JteindexGenerated {
 					jteOutput.setContext("a", null);
 					jteOutput.writeContent("\"");
 				}
-				jteOutput.writeContent(">Create course</a>\n    </div>\n\n    <div class=\"container\">\n        ");
-				if (page.getCourses().isEmpty()) {
-					jteOutput.writeContent("\n            <p>Not found any courses</p>\n            <a");
-					var __jte_html_attribute_1 = NamedRoutes.coursesPath();
+				jteOutput.writeContent(">Create user</a>\n\n    </div>\n    <div class=\"container\">\n        ");
+				if (page.getUsers().isEmpty()) {
+					jteOutput.writeContent("\n            <p>Not found any users</p>\n            <a");
+					var __jte_html_attribute_1 = NamedRoutes.usersPath();
 					if (gg.jte.runtime.TemplateUtils.isAttributeRendered(__jte_html_attribute_1)) {
 						jteOutput.writeContent(" href=\"");
 						jteOutput.setContext("a", "href");
@@ -38,8 +38,8 @@ public final class JteindexGenerated {
 						jteOutput.writeUserContent(page.getFlash().toString());
 						jteOutput.writeContent("</p>\n            ");
 					}
-					jteOutput.writeContent("\n            <h2>Courses list</h2>\n\n            <form class=\"nav active\"");
-					var __jte_html_attribute_2 = NamedRoutes.coursesPath();
+					jteOutput.writeContent("\n            <h2>Users list</h2>\n            <form class=\"nav active\"");
+					var __jte_html_attribute_2 = NamedRoutes.usersPath();
 					if (gg.jte.runtime.TemplateUtils.isAttributeRendered(__jte_html_attribute_2)) {
 						jteOutput.writeContent(" action=\"");
 						jteOutput.setContext("form", "action");
@@ -47,8 +47,8 @@ public final class JteindexGenerated {
 						jteOutput.setContext("form", null);
 						jteOutput.writeContent("\"");
 					}
-					jteOutput.writeContent(" method=\"get\">\n                <label>\n                    <input type=\"search\" required name=\"term\">\n                </label>\n                <input class=\"nav-link\" type=\"submit\" value=\"Искать\">\n            </form>\n            <div align=\"right\">\n                <form");
-					var __jte_html_attribute_3 = NamedRoutes.coursesPath();
+					jteOutput.writeContent(" method=\"get\">\n                <label>\n                    <input type=\"search\" required name=\"term\">\n                </label>\n                <input class=\"nav-link\" type=\"submit\" value=\"Search\">\n            </form>\n            <div align=\"right\">\n                <form");
+					var __jte_html_attribute_3 = NamedRoutes.usersPath();
 					if (gg.jte.runtime.TemplateUtils.isAttributeRendered(__jte_html_attribute_3)) {
 						jteOutput.writeContent(" action=\"");
 						jteOutput.setContext("form", "action");
@@ -56,10 +56,10 @@ public final class JteindexGenerated {
 						jteOutput.setContext("form", null);
 						jteOutput.writeContent("\"");
 					}
-					jteOutput.writeContent(" method=\"get\">\n                    <input type=\"hidden\" name=\"page\" value=\"1\">\n                    <label>\n                        <select name=\"per\" onchange=\"this.form.submit()\">\n                            <option value=\"10\">10</option>\n                            <option value=\"20\">20</option>\n                            <option value=\"50\">50</option>\n                        </select>\n                    </label>\n                    <input class=\"btn btn-primary btn-sm\" type=\"submit\" value=\"Show\">\n                </form>\n            </div>\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>ID</th>\n                    <th>Name</th>\n                    <th>Description</th>\n                    <th>Full name of the course</th>\n                </tr>\n                </thead>\n                <tbody>\n                ");
-					for (var course : page.getCourses()) {
+					jteOutput.writeContent(" method=\"get\">\n                    <input type=\"hidden\" name=\"page\" value=\"1\">\n                    <label>\n                        <select name=\"per\" onchange=\"this.form.submit()\">\n                            <option value=\"10\">10</option>\n                            <option value=\"20\">20</option>\n                            <option value=\"50\">50</option>\n                        </select>\n                    </label>\n                    <input class=\"btn btn-primary btn-sm\" type=\"submit\" value=\"Show\">\n                </form>\n            </div>\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>ID</th>\n                    <th>Email</th>\n                    <th>Name</th>\n                </tr>\n                </thead>\n                <tbody>\n                ");
+					for (var user : page.getUsers()) {
 						jteOutput.writeContent("\n                    <tr>\n                        <td><a");
-						var __jte_html_attribute_4 = NamedRoutes.coursePath(course.getId());
+						var __jte_html_attribute_4 = NamedRoutes.userPath(user.getId());
 						if (gg.jte.runtime.TemplateUtils.isAttributeRendered(__jte_html_attribute_4)) {
 							jteOutput.writeContent(" href=\"");
 							jteOutput.setContext("a", "href");
@@ -69,16 +69,13 @@ public final class JteindexGenerated {
 						}
 						jteOutput.writeContent(">");
 						jteOutput.setContext("a", null);
-						jteOutput.writeUserContent(course.getId());
+						jteOutput.writeUserContent(user.getId());
 						jteOutput.writeContent("</a></td>\n                        <td>");
 						jteOutput.setContext("td", null);
-						jteOutput.writeUserContent(course.getName());
+						jteOutput.writeUserContent(user.getEmail());
 						jteOutput.writeContent("</td>\n                        <td>");
 						jteOutput.setContext("td", null);
-						jteOutput.writeUserContent(course.getBody());
-						jteOutput.writeContent("</td>\n                        <td>");
-						jteOutput.setContext("td", null);
-						jteOutput.writeUserContent(course.toString());
+						jteOutput.writeUserContent(user.getName());
 						jteOutput.writeContent("</td>\n                    </tr>\n                ");
 					}
 					jteOutput.writeContent("\n                </tbody>\n            </table>\n            <nav aria-label=\"Page navigation example\">\n                <ul class=\"pagination justify-content-end\">\n                    <li class=\"page-item ");
@@ -87,7 +84,7 @@ public final class JteindexGenerated {
 					jteOutput.setContext("li", null);
 					jteOutput.writeContent("\">\n                        <a class=\"page-link\"\n                           href=\"");
 					jteOutput.setContext("a", "href");
-					jteOutput.writeUserContent(NamedRoutes.coursesPath());
+					jteOutput.writeUserContent(NamedRoutes.usersPath());
 					jteOutput.setContext("a", null);
 					jteOutput.writeContent("?page=");
 					jteOutput.setContext("a", "href");
@@ -99,11 +96,11 @@ public final class JteindexGenerated {
 					jteOutput.setContext("a", null);
 					jteOutput.writeContent("\">Previous</a>\n                    </li>\n                    <li class=\"page-item ");
 					jteOutput.setContext("li", "class");
-					jteOutput.writeUserContent(page.getPageNumber()*page.getPerPage() < CourseRepository.size() ? "" : "disabled");
+					jteOutput.writeUserContent(page.getPageNumber()*page.getPerPage() < UserRepository.size() ? "" : "disabled");
 					jteOutput.setContext("li", null);
 					jteOutput.writeContent("\">\n                        <a class=\"page-link\"\n                           href=\"");
 					jteOutput.setContext("a", "href");
-					jteOutput.writeUserContent(NamedRoutes.coursesPath());
+					jteOutput.writeUserContent(NamedRoutes.usersPath());
 					jteOutput.setContext("a", null);
 					jteOutput.writeContent("?page=");
 					jteOutput.setContext("a", "href");
@@ -118,9 +115,10 @@ public final class JteindexGenerated {
 				jteOutput.writeContent("\n    </div>\n");
 			}
 		});
+		jteOutput.writeContent("\n");
 	}
 	public static void renderMap(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, java.util.Map<String, Object> params) {
-		CoursesPage page = (CoursesPage)params.get("page");
+		UsersPage page = (UsersPage)params.get("page");
 		render(jteOutput, jteHtmlInterceptor, page);
 	}
 }

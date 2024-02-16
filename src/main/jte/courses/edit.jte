@@ -29,7 +29,7 @@
                 </p>
             </div>
             <div>
-                <p>Текущее описание - ${page.getCourse().getDescription()}</p>
+                <p>Текущее описание - ${page.getCourse().getBody()}</p>
                 <label>
                     <p>
                         Описание

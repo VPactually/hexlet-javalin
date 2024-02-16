@@ -16,7 +16,7 @@
 
         <form action="${NamedRoutes.sessionsPath()}" method="post">
             <label>
-                <input type="text" placeholder="nickname" name="nickname" />
+                <input type="email" placeholder="email" name="email" />
             </label>
             <label>
                 <input type="password" placeholder="password" name="password" />

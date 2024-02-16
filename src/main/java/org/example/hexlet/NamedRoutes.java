@@ -2,6 +2,7 @@ package org.example.hexlet;
 
 public class NamedRoutes {
 
+    public static String rootPath() {return "/";}
     public static String usersPath() {
         return "/users";
     }
@@ -59,11 +60,25 @@ public class NamedRoutes {
         return "/courses/" + id + "/edit";
     }
 
-    public static String sessionsBuildPath() {return "/sessions/build";}
+    public static String deleteCoursePath(Long id) {
+        return deleteCoursePath(String.valueOf(id));
+    }
 
-    public static String sessionsPath() { return "/sessions";}
+    public static String deleteCoursePath(String id) {
+        return "/courses/delete/" + id;
+    }
 
-    public static String deleteSessionPath() {return "/sessions/delete";}
+    public static String sessionsBuildPath() {
+        return "/sessions/build";
+    }
+
+    public static String sessionsPath() {
+        return "/sessions";
+    }
+
+    public static String deleteSessionPath() {
+        return "/sessions/delete";
+    }
 
 
 }

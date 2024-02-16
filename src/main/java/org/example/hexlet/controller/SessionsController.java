@@ -4,7 +4,9 @@ package org.example.hexlet.controller;
 import io.javalin.http.Context;
 import io.javalin.validation.ValidationException;
 import org.example.hexlet.dto.sessions.BuildSessionPage;
+import org.example.hexlet.repository.repositories.UserRepository;
 
+import java.sql.SQLException;
 import java.util.Collections;
 
 public class SessionsController {
@@ -14,15 +16,19 @@ public class SessionsController {
     }
 
     public static void create(Context ctx) {
-        var nickname = ctx.formParam("nickname");
+        var email = ctx.formParam("email");
+
         try {
+            var user = UserRepository.getEntities().stream()
+                    .filter(user1 -> user1.getEmail().equals(email))
+                    .findFirst().get();
             var password = ctx.formParamAsClass("password", String.class)
-                    .check(v -> v.length() > 6, "Short password")
+                    .check(p -> p.equals(user.getPassword()), "Wrong password")
                     .get();
-            ctx.sessionAttribute("currentUser", nickname);
+            ctx.sessionAttribute("currentUser", user.getName());
             ctx.redirect("/");
         } catch (ValidationException e) {
-            var page = new BuildSessionPage(nickname, null, e.getErrors());
+            var page = new BuildSessionPage(email, null, e.getErrors());
             ctx.render("sessions/build.jte", Collections.singletonMap("page", page));
         }
 

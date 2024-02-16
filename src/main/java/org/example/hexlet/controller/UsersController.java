@@ -4,7 +4,6 @@ import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.validation.ValidationException;
 import org.example.hexlet.NamedRoutes;
-import org.example.hexlet.dto.courses.EditCoursePage;
 import org.example.hexlet.dto.users.BuildUserPage;
 import org.example.hexlet.dto.users.EditUserPage;
 import org.example.hexlet.dto.users.UserPage;
@@ -12,9 +11,9 @@ import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.Data;
 import org.example.hexlet.model.User;
 import org.example.hexlet.model.pages.Pages;
-import org.example.hexlet.repository.CourseRepository;
-import org.example.hexlet.repository.UserRepository;
+import org.example.hexlet.repository.repositories.UserRepository;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class UsersController {

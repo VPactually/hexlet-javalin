@@ -1,33 +1,66 @@
 package org.example.hexlet;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
-import io.javalin.validation.ValidationException;
 import org.example.hexlet.controller.CoursesController;
 import org.example.hexlet.controller.SessionsController;
 import org.example.hexlet.controller.UsersController;
-import org.example.hexlet.dto.courses.BuildCoursePage;
-import org.example.hexlet.dto.courses.CoursePage;
-import org.example.hexlet.dto.courses.CoursesPage;
-import org.example.hexlet.dto.users.BuildUserPage;
-import org.example.hexlet.dto.users.UserPage;
-import org.example.hexlet.dto.users.UsersPage;
-import org.example.hexlet.model.*;
-import org.example.hexlet.model.pages.Pages;
+import org.example.hexlet.model.Data;
 import org.example.hexlet.model.pages.WelcomePage;
-import org.example.hexlet.repository.CourseRepository;
-import org.example.hexlet.repository.UserRepository;
+import org.example.hexlet.repository.BaseRepository;
+import org.example.hexlet.repository.repositories.CourseRepository;
+import org.example.hexlet.repository.repositories.UserRepository;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class App {
+    public static Javalin getApp() throws Exception {
+        var hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl("jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;");
 
-    public static void main(String[] args) {
-        var app = Javalin.create(javalinConfig -> {
-            javalinConfig.bundledPlugins.enableDevLogging();
-            javalinConfig.fileRenderer(new JavalinJte());
+        var dataSource = new HikariDataSource(hikariConfig);
+        BaseRepository.dataSource = dataSource;
+
+        var app = Javalin.create(config -> {
+            config.bundledPlugins.enableDevLogging();
+            config.fileRenderer(new JavalinJte());
         });
-        app.get("/", ctx -> {
+
+        var url = App.class.getClassLoader().getResource("schema.sql");
+        var file = new File(url.getFile());
+
+        var sql = Files.lines(file.toPath())
+                .collect(Collectors.joining("\n"));
+
+        try (var statement = dataSource.getConnection().createStatement()){
+            statement.execute(sql);
+        }
+        BaseRepository.dataSource = dataSource;
+        return app;
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        var app = getApp();
+
+        var users = Data.getUsers();
+        for (var user : users) {
+            UserRepository.save(user);
+            System.out.println(user.getEmail());
+            System.out.println(user.getPassword());
+        }
+
+        var courses = Data.getCourses();
+        for (var course : courses) {
+            CourseRepository.save(course);
+        }
+
+        app.get(NamedRoutes.rootPath(), ctx -> {
             var visited = Boolean.parseBoolean(ctx.cookie("visited"));
             var page = new WelcomePage();
             page.setName(ctx.sessionAttribute("currentUser"));
@@ -49,7 +82,7 @@ public class App {
         app.get(NamedRoutes.editCoursePath("{id}"), CoursesController::edit);
         app.post(NamedRoutes.coursesPath(), CoursesController::create);
         app.post(NamedRoutes.coursePath("{id}"), CoursesController::update);
-        app.delete(NamedRoutes.coursePath("{id}"), CoursesController::destroy);
+        app.post(NamedRoutes.deleteCoursePath("{id}"), CoursesController::destroy);
 
         app.get(NamedRoutes.sessionsBuildPath(), SessionsController::build);
         app.post(NamedRoutes.sessionsPath(), SessionsController::create);

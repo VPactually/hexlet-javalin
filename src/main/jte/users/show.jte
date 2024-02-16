@@ -4,7 +4,7 @@
 
 
 @template.layout.page(content = @`
-    <div class="snippet-container" align="right">
+    <div class="offset-md-11">
         <a href="${NamedRoutes.editUserPath(page.getUser().getId())}">Edit</a>
         <a href="${NamedRoutes.deleteUserPath(page.getUser().getId())}" data-method="delete" rel="nofollow">Delete</a>
     </div>

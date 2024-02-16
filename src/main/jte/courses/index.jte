@@ -1,6 +1,6 @@
 @import org.example.hexlet.dto.courses.CoursesPage
 @import org.example.hexlet.NamedRoutes
-@import org.example.hexlet.repository.CourseRepository
+@import org.example.hexlet.repository.repositories.CourseRepository
 @param CoursesPage page
 
 @template.layout.page(
@@ -54,7 +54,7 @@ content = @`
                     <tr>
                         <td><a href="${NamedRoutes.coursePath(course.getId())}">${course.getId()}</a></td>
                         <td>${course.getName()}</td>
-                        <td>${course.getDescription()}</td>
+                        <td>${course.getBody()}</td>
                         <td>${course.toString()}</td>
                     </tr>
                 @endfor

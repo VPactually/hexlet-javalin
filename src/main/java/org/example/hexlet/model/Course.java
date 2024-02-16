@@ -10,12 +10,16 @@ import lombok.ToString;
 public final class Course {
     private long id;
     private String name;
-    private String description;
+    private String body;
 
-    public Course(String name, String description, Long id) {
+    public Course(String name, String body, Long id) {
         this.name = name;
-        this.description = description;
+        this.body = body;
         this.id = id;
     }
 
+    public Course(String name, String body) {
+        this.name = name;
+        this.body = body;
+    }
 }
