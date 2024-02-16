@@ -1,9 +1,13 @@
 package org.example.hexlet;
 
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
+import io.javalin.router.Endpoint;
+import io.javalin.router.EndpointExecutor;
+import io.javalin.router.EndpointNotFound;
 import org.example.hexlet.controller.CoursesController;
 import org.example.hexlet.controller.SessionsController;
 import org.example.hexlet.controller.UsersController;
@@ -13,12 +17,11 @@ import org.example.hexlet.repository.BaseRepository;
 import org.example.hexlet.repository.repositories.CourseRepository;
 import org.example.hexlet.repository.repositories.UserRepository;
 
+
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -97,6 +100,10 @@ public class App {
         app.post(NamedRoutes.sessionsPath(), SessionsController::create);
         app.post(NamedRoutes.deleteSessionPath(), SessionsController::destroy);
 
+        app.exception(EndpointNotFound.class, (endpoint, ctx) -> {
+            ctx.status(404);
+            ctx.render("errors/404.jte"); // замените на путь к вашему шаблону ошибки 404
+        });
         app.start(7070);
     }
 
