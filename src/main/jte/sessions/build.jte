@@ -12,6 +12,8 @@
                     @endfor
                 @endfor
             </ul>
+        @elseif(page.getError() != null)
+            <ul><li>${page.getError()}</li></ul>
         @endif
 
         <form action="${NamedRoutes.sessionsPath()}" method="post">
