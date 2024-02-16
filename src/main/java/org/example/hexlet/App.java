@@ -13,13 +13,25 @@ import org.example.hexlet.repository.BaseRepository;
 import org.example.hexlet.repository.repositories.CourseRepository;
 import org.example.hexlet.repository.repositories.UserRepository;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class App {
+    private static String readResourceFile(String fileName) throws IOException {
+        var inputStream = App.class.getClassLoader().getResourceAsStream(fileName);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            return reader.lines().collect(Collectors.joining("\n"));
+        }
+
+    }
     public static Javalin getApp() throws Exception {
+
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl("jdbc:h2:mem:hexlet_project;DB_CLOSE_DELAY=-1;");
 
@@ -31,11 +43,8 @@ public class App {
             config.fileRenderer(new JavalinJte());
         });
 
-        var url = App.class.getClassLoader().getResource("schema.sql");
-        var file = new File(url.getFile());
 
-        var sql = Files.lines(file.toPath())
-                .collect(Collectors.joining("\n"));
+        var sql = readResourceFile("schema.sql");
 
         try (var statement = dataSource.getConnection().createStatement()){
             statement.execute(sql);

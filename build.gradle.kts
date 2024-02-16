@@ -4,8 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
     id("java")
     application
-    id("com.github.johnrengelman.shadow") version "8.1.1"
-}
+    id("com.github.johnrengelman.shadow") version "8.1.1" }
 
 application {
     mainClass.set("org.example.hexlet.App")
@@ -36,7 +35,6 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.23.1")
-
 }
 
 
